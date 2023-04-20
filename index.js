@@ -2,17 +2,19 @@ const crypto = require('crypto')
 const zipper = require('zip-local')
 const fs = require('fs')
 const read = require('read')
+const UglifyJS = require('uglify-js')
 
 function ask(question) {
-  return read({ prompt: question, silent: false })
+  return read({ prompt: question, silent: true })
 }
 
 const cipherType = 'aes-256-cbc'
 const TARGET_FOLDER_PATH = './target-folder'
 const RESULT_FOLDER_PATH = './result-folder'
-const RESULT_CONTEXT_PATH = `${RESULT_FOLDER_PATH}/context.txt`
 const RESULT_ASSETS_PATH = `${RESULT_FOLDER_PATH}/assets.json`
-const ZIP_NAME = 'temp.zip'
+const BACK_JS_NAME = 'back.js'
+const BACK_JS_PATH = `./${BACK_JS_NAME}`
+const BACK_JS_COPY_DIST_PATH = `${RESULT_FOLDER_PATH}/${BACK_JS_NAME}`
 
 const ERROR_CODE = {
   1: `${TARGET_FOLDER_PATH} is not a folder.`,
@@ -40,15 +42,26 @@ async function start() {
 
   const password = await ask('Your password: ')
 
-  zipper.sync.zip(TARGET_FOLDER_PATH).compress().save(ZIP_NAME)
-  const target = fs.readFileSync(ZIP_NAME, 'hex').toString()
+  const zipMemory = zipper.sync.zip(TARGET_FOLDER_PATH).compress().memory().toString('hex')
+  const target = zipMemory
 
+  // Become God and save it to result-folder
   const { enc, iv, basicEncKey, basicIv } = generateEncAndIv(password)
   const godWords = await becomeGod(target, enc, iv)
-  fs.writeFileSync(RESULT_CONTEXT_PATH, godWords, 'utf8')
 
-  const assets = { enc: basicEncKey, iv: basicIv }
+  // Crerate needed assets
+  const assets = { enc: basicEncKey, iv: basicIv, godWords }
   fs.writeFileSync(RESULT_ASSETS_PATH, JSON.stringify(assets), 'utf8')
+
+  // Copy and uglify back.js to result-folder
+  const uglifyOptions = { mangle: { toplevel: true } }
+  fs.writeFileSync(
+    BACK_JS_COPY_DIST_PATH,
+    UglifyJS.minify(fs.readFileSync(BACK_JS_PATH, 'utf8'), uglifyOptions).code,
+    'utf8'
+  )
+
+  console.log('\n\nOnly God knows.\n')
 }
 start()
 

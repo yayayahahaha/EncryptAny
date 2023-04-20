@@ -2,7 +2,7 @@ result-folder
 !result-folder/.git-keep
 target-folder
 !target-folder/.git-keep
-pack.zip
+temp.zip
 
 
 # Logs
