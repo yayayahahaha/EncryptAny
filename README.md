@@ -1,0 +1,3 @@
+# EncryptAny
+
+> encrypt, ANY
