@@ -12,8 +12,7 @@ const TARGET_FOLDER_PATH = './target-folder'
 const RESULT_FOLDER_PATH = './result-folder'
 const RESULT_CONTEXT_PATH = `${RESULT_FOLDER_PATH}/context.txt`
 const RESULT_ASSETS_PATH = `${RESULT_FOLDER_PATH}/assets.json`
-
-const ZIP_NAME = 'pack.zip'
+const ZIP_NAME = 'temp.zip'
 
 const ERROR_CODE = {
   1: `${TARGET_FOLDER_PATH} is not a folder.`,
