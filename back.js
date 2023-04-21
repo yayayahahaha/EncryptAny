@@ -1,10 +1,22 @@
 const zipper = require('zip-local')
 const fs = require('fs')
 const path = require('path')
+const UglifyJS = require('uglify-js')
 
 // TODO(flyc): 這裡會有 path 的問題? 讓整體流程與這個專案耦合太強
-const utils = require(path.resolve(__dirname, '../utils.js'))
-const { generateEncAndIv, welcomeBack, ask } = utils
+const utils = require('./utils.js')
+const { BACK_JS_PATH, BACK_JS_COPY_DIST_PATH, generateEncAndIv, welcomeBack, ask } = utils
+
+function _temp() {
+  // Copy and uglify back.js to result-folder
+  const uglifyOptions = { mangle: { toplevel: true } }
+  fs.writeFileSync(
+    BACK_JS_COPY_DIST_PATH,
+    UglifyJS.minify(fs.readFileSync(BACK_JS_PATH, 'utf8'), uglifyOptions).code,
+    'utf8'
+  )
+}
+_temp
 
 const RESULT_GOD_WORDS_PATH = path.resolve(__dirname, './god-words')
 const ZIP_BACK_PATH = path.resolve(__dirname, './result.zip')

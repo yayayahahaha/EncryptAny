@@ -1,30 +1,19 @@
 const zipper = require('zip-local')
 const fs = require('fs')
-const UglifyJS = require('uglify-js')
-const path = require('path')
 
-// const utils = require(path.resolve(__dirname, './utils'))
 const utils = require('./utils')
-const {
-  ask,
-  becomeGod,
-  generateEncAndIv,
-  TARGET_FOLDER_PATH,
-  RESULT_GOD_WORDS_PATH,
-  BACK_JS_PATH,
-  BACK_JS_COPY_DIST_PATH,
-  ERROR_CODE,
-} = utils
+const { targetFolderPath, resultFolderPath, resultGodWordsPath, ask, becomeGod, generateEncAndIv, ERROR_CODE } = utils
 
 async function start() {
-  if (!fs.lstatSync(TARGET_FOLDER_PATH).isDirectory()) {
+  if (!fs.existsSync(targetFolderPath()) || !fs.lstatSync(targetFolderPath()).isDirectory()) {
     console.error(ERROR_CODE[1])
+    console.log('path: ', targetFolderPath())
     return void process.exit(1)
   }
 
   const password = await ask('Your password: ')
 
-  const zipMemory = zipper.sync.zip(TARGET_FOLDER_PATH).compress().memory().toString('hex')
+  const zipMemory = zipper.sync.zip(targetFolderPath()).compress().memory().toString('hex')
   const target = zipMemory
 
   // Become God and save it to result-folder
@@ -32,16 +21,9 @@ async function start() {
   const godWords = await becomeGod(target, enc, iv)
 
   // Crerate needed assets
+  fs.mkdirSync(resultFolderPath(), { recursive: true })
   const assets = `${basicEncKey}${basicIv}${godWords}`
-  fs.writeFileSync(RESULT_GOD_WORDS_PATH, assets, 'utf8')
-
-  // Copy and uglify back.js to result-folder
-  const uglifyOptions = { mangle: { toplevel: true } }
-  fs.writeFileSync(
-    BACK_JS_COPY_DIST_PATH,
-    UglifyJS.minify(fs.readFileSync(BACK_JS_PATH, 'utf8'), uglifyOptions).code,
-    'utf8'
-  )
+  fs.writeFileSync(resultGodWordsPath(), assets, 'utf8')
 
   console.log('\n\nOnly God knows.\n')
 }
@@ -52,3 +34,4 @@ start()
 // https://stackoverflow.com/a/51592970/4551134
 // https://blog.logrocket.com/using-stdout-stdin-stderr-node-js/
 // https://github.com/npm/read
+// https://github.com/vercel/pkg/issues/1293
