@@ -1,7 +1,7 @@
-result-folder
-!result-folder/.git-keep
-target-folder
-!target-folder/.git-keep
+encrypted-result
+!encrypted-result/.git-keep
+original-files
+!original-files/.git-keep
 temp.zip
 
 

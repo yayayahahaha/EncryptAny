@@ -3,8 +3,8 @@ const read = require('read')
 const path = require('path')
 
 const cipherType = 'aes-256-cbc'
-const TARGET_FOLDER_PATH = path.resolve(__dirname, './target-folder')
-const RESULT_FOLDER_PATH = path.resolve(__dirname, './result-folder')
+const TARGET_FOLDER_PATH = path.resolve(__dirname, './original-files')
+const RESULT_FOLDER_PATH = path.resolve(__dirname, './encrypted-result')
 const RESULT_GOD_WORDS_PATH = path.resolve(__dirname, `${RESULT_FOLDER_PATH}/god-words`)
 const BACK_JS_NAME = 'back.js'
 const BACK_JS_PATH = path.resolve(__dirname, `./${BACK_JS_NAME}`)
