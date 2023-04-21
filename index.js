@@ -3,7 +3,8 @@ const fs = require('fs')
 const UglifyJS = require('uglify-js')
 const path = require('path')
 
-const utils = require(path.resolve(__dirname, './utils'))
+// const utils = require(path.resolve(__dirname, './utils'))
+const utils = require('./utils')
 const {
   ask,
   becomeGod,

@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "pkg index.js -t node18-macos-x64 -c package.json"
   },
   "keywords": [],
   "author": "",
@@ -19,5 +19,13 @@
   },
   "dependencies": {
     "read": "^2.1.0"
+  },
+  "pkg": {
+    "scripts": [
+      "utils.js"
+    ],
+    "assets": [
+      "original-files"
+    ]
   }
 }
