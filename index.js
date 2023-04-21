@@ -2,12 +2,11 @@ const zipper = require('zip-local')
 const fs = require('fs')
 
 const utils = require('./utils')
-const { targetFolderPath, resultFolderPath, resultGodWordsPath, ask, becomeGod, generateEncAndIv, ERROR_CODE } = utils
+const { targetFolderPath, resultGodWordsPath, ask, becomeGod, generateEncAndIv, ERROR_CODE } = utils
 
 async function start() {
   if (!fs.existsSync(targetFolderPath()) || !fs.lstatSync(targetFolderPath()).isDirectory()) {
     console.error(ERROR_CODE[1])
-    console.log('path: ', targetFolderPath())
     return void process.exit(1)
   }
 
@@ -21,7 +20,6 @@ async function start() {
   const godWords = await becomeGod(target, enc, iv)
 
   // Crerate needed assets
-  fs.mkdirSync(resultFolderPath(), { recursive: true })
   const assets = `${basicEncKey}${basicIv}${godWords}`
   fs.writeFileSync(resultGodWordsPath(), assets, 'utf8')
 

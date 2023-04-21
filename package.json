@@ -8,7 +8,8 @@
     "en": "node index.js",
     "decrypted": "node encrypted-result/back.js",
     "de": "node encrypted-result/back.js",
-    "build": "pkg index.js -t node18-macos-x64 -c package.json -o EncryptAny"
+    "build": "pkg index.js -t node18-macos-x64 -c package.json -o EncryptAny",
+    "build-back": "pkg back.js -t node18-macos-x64 -c package.json -o EncryptAnyBack"
   },
   "keywords": [],
   "author": "",

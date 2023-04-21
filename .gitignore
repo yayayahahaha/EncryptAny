@@ -2,6 +2,10 @@ encrypted-result
 original-files
 !original-files/.git-keep
 EncryptAny # BinaryFile
+EncryptAnyBack # BinaryFile
+god-words
+result.zip
+result
 
 # Logs
 logs

@@ -5,9 +5,11 @@ const cipherType = 'aes-256-cbc'
 const TARGET_FOLDER_NAME = 'original-files'
 const RESULT_FOLDER_NAME = 'encrypted-result'
 const GOD_WORDS_NAME = 'god-words'
+const ZIP_NAME = 'result'
 
 const ERROR_CODE = {
-  1: `${TARGET_FOLDER_NAME} is not a folder.`,
+  1: `${targetFolderPath()} is not a folder.`,
+  2: `${godWordsPath()} is not exist.`,
 }
 
 function isPkg() {
@@ -23,11 +25,14 @@ function pathPrefix() {
 function targetFolderPath() {
   return `${pathPrefix()}/${TARGET_FOLDER_NAME}`
 }
-function resultFolderPath() {
-  return `${pathPrefix()}/${RESULT_FOLDER_NAME}`
-}
 function resultGodWordsPath() {
-  return `${resultFolderPath()}/${GOD_WORDS_NAME}`
+  return `${pathPrefix()}/${GOD_WORDS_NAME}`
+}
+function godWordsPath() {
+  return `${pathPrefix()}/${GOD_WORDS_NAME}`
+}
+function resultFilePath() {
+  return `${pathPrefix()}/${ZIP_NAME}`
 }
 
 /**
@@ -100,8 +105,9 @@ module.exports = {
   isPkg,
   pathPrefix,
   targetFolderPath,
-  resultFolderPath,
   resultGodWordsPath,
+  godWordsPath,
+  resultFilePath,
 
   ask,
 
