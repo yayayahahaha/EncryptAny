@@ -11,7 +11,7 @@ function ask(question) {
 const cipherType = 'aes-256-cbc'
 const TARGET_FOLDER_PATH = './target-folder'
 const RESULT_FOLDER_PATH = './result-folder'
-const RESULT_ASSETS_PATH = `${RESULT_FOLDER_PATH}/assets.json`
+const RESULT_GOD_WORDS_PATH = `${RESULT_FOLDER_PATH}/god-words`
 const BACK_JS_NAME = 'back.js'
 const BACK_JS_PATH = `./${BACK_JS_NAME}`
 const BACK_JS_COPY_DIST_PATH = `${RESULT_FOLDER_PATH}/${BACK_JS_NAME}`
@@ -50,8 +50,8 @@ async function start() {
   const godWords = await becomeGod(target, enc, iv)
 
   // Crerate needed assets
-  const assets = { enc: basicEncKey, iv: basicIv, godWords }
-  fs.writeFileSync(RESULT_ASSETS_PATH, JSON.stringify(assets), 'utf8')
+  const assets = `${basicEncKey}${basicIv}${godWords}`
+  fs.writeFileSync(RESULT_GOD_WORDS_PATH, assets, 'utf8')
 
   // Copy and uglify back.js to result-folder
   const uglifyOptions = { mangle: { toplevel: true } }

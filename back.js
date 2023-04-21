@@ -8,13 +8,16 @@ function ask(question) {
 }
 
 const cipherType = 'aes-256-cbc'
-const RESULT_ASSETS_PATH = `./assets.json`
+const RESULT_GOD_WORDS_PATH = `./god-words`
 const ZIP_BACK_PATH = './result.zip'
 const FINAL_RESULT_PATH = './result'
 
 async function start() {
   // Read origin enc and iv
-  const { enc: assetsEnc, iv: assetsIv, godWords } = JSON.parse(fs.readFileSync(RESULT_ASSETS_PATH, 'utf8'))
+  const neverKnow = fs.readFileSync(RESULT_GOD_WORDS_PATH, 'utf8')
+  const assetsEnc = neverKnow.slice(0, 32)
+  const assetsIv = neverKnow.slice(32, 48)
+  const godWords = neverKnow.slice(48)
 
   // Use password generate real enc and iv
   const password = await ask('Password: ')
