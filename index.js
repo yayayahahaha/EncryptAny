@@ -1,29 +1,42 @@
 const zipper = require('zip-local')
 const fs = require('fs')
-const UglifyJS = require('uglify-js')
-const path = require('path')
 
-const utils = require(path.resolve(__dirname, './utils'))
-const {
-  ask,
-  becomeGod,
-  generateEncAndIv,
-  TARGET_FOLDER_PATH,
-  RESULT_GOD_WORDS_PATH,
-  BACK_JS_PATH,
-  BACK_JS_COPY_DIST_PATH,
-  ERROR_CODE,
-} = utils
+const utils = require('./utils')
+const { targetFolderPath, resultGodWordsPath, ask, becomeGod, generateEncAndIv, ERROR_CODE } = utils
+
+function showEncryptSteps() {
+  console.log()
+  console.log('==== Encrypt Steps ====')
+  console.log('Put all files you want to encrypt into a folder named `original-files`.')
+  console.log('Set a password for it.')
+  console.log('Wait a minute, it depends on the size of files.')
+  console.log('When it done, it will generate a file named `god-words`')
+  console.log('Keep it safe, and use `EncryptAnyBack` program to decrypt it back.')
+  console.log('=======================')
+  console.log()
+}
 
 async function start() {
-  if (!fs.lstatSync(TARGET_FOLDER_PATH).isDirectory()) {
+  showEncryptSteps()
+
+  if (!fs.existsSync(targetFolderPath()) || !fs.lstatSync(targetFolderPath()).isDirectory()) {
+    console.error(ERROR_CODE.title)
     console.error(ERROR_CODE[1])
     return void process.exit(1)
   }
 
   const password = await ask('Your password: ')
+  console.log()
+  const passwordCheck = await ask('Again for confirm: ')
+  console.log()
+  console.log()
+  if (password !== passwordCheck) {
+    console.error(ERROR_CODE.title)
+    console.error(ERROR_CODE[5])
+    return void process.exit(5)
+  }
 
-  const zipMemory = zipper.sync.zip(TARGET_FOLDER_PATH).compress().memory().toString('hex')
+  const zipMemory = zipper.sync.zip(targetFolderPath()).compress().memory().toString('hex')
   const target = zipMemory
 
   // Become God and save it to result-folder
@@ -32,17 +45,10 @@ async function start() {
 
   // Crerate needed assets
   const assets = `${basicEncKey}${basicIv}${godWords}`
-  fs.writeFileSync(RESULT_GOD_WORDS_PATH, assets, 'utf8')
+  fs.writeFileSync(resultGodWordsPath(), assets, 'utf8')
 
-  // Copy and uglify back.js to result-folder
-  const uglifyOptions = { mangle: { toplevel: true } }
-  fs.writeFileSync(
-    BACK_JS_COPY_DIST_PATH,
-    UglifyJS.minify(fs.readFileSync(BACK_JS_PATH, 'utf8'), uglifyOptions).code,
-    'utf8'
-  )
-
-  console.log('\n\nOnly God knows.\n')
+  console.log('Encrypt Success.')
+  console.log('\n\nOnly God knows now.\n')
 }
 start()
 
@@ -51,3 +57,4 @@ start()
 // https://stackoverflow.com/a/51592970/4551134
 // https://blog.logrocket.com/using-stdout-stdin-stderr-node-js/
 // https://github.com/npm/read
+// https://github.com/vercel/pkg/issues/1293

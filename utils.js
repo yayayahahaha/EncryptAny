@@ -1,17 +1,42 @@
 const crypto = require('crypto')
 const read = require('read')
-const path = require('path')
 
 const cipherType = 'aes-256-cbc'
-const TARGET_FOLDER_PATH = path.resolve(__dirname, './original-files')
-const RESULT_FOLDER_PATH = path.resolve(__dirname, './encrypted-result')
-const RESULT_GOD_WORDS_PATH = path.resolve(__dirname, `${RESULT_FOLDER_PATH}/god-words`)
-const BACK_JS_NAME = 'back.js'
-const BACK_JS_PATH = path.resolve(__dirname, `./${BACK_JS_NAME}`)
-const BACK_JS_COPY_DIST_PATH = path.resolve(__dirname, `${RESULT_FOLDER_PATH}/${BACK_JS_NAME}`)
+const TARGET_FOLDER_NAME = 'original-files'
+const RESULT_FOLDER_NAME = 'encrypted-result'
+const GOD_WORDS_NAME = 'god-words'
+const ZIP_NAME = 'result'
 
 const ERROR_CODE = {
-  1: `${TARGET_FOLDER_PATH} is not a folder.`,
+  title: `[ERROR]`,
+  1: `original-files check failed! ${targetFolderPath()} is not a folder.\n`,
+  2: `god-words check failed! ${godWordsPath()} is not exist.\n`,
+  3: '\n\nYOU SHALL NOT PASS\n',
+  4: 'Encrypt failed\n',
+  5: 'Two passwords are not the same, please check again.\n',
+}
+
+function isPkg() {
+  return /^\/snapshot\/[^/]+$/.test(__dirname)
+}
+function pathPrefix() {
+  if (isPkg()) {
+    return process.execPath.replace(/\/[^/]+$/, '')
+  } else {
+    return __dirname
+  }
+}
+function targetFolderPath() {
+  return `${pathPrefix()}/${TARGET_FOLDER_NAME}`
+}
+function resultGodWordsPath() {
+  return `${pathPrefix()}/${GOD_WORDS_NAME}`
+}
+function godWordsPath() {
+  return `${pathPrefix()}/${GOD_WORDS_NAME}`
+}
+function resultFilePath() {
+  return `${pathPrefix()}/${ZIP_NAME}`
 }
 
 /**
@@ -50,7 +75,8 @@ function becomeGod(target, enc, iv) {
       const cipher = crypto.createCipheriv(cipherType, enc, iv)
       return void resolve(cipher.update(target, 'utf8', 'hex') + cipher.final('hex'))
     } catch (error) {
-      console.error('Encrypt failed')
+      console.error(ERROR_CODE.title)
+      console.error(ERROR_CODE[4])
       return void reject(error)
     }
   })
@@ -66,7 +92,7 @@ function welcomeBack(godWords, enc, iv) {
       const decipher = crypto.createDecipheriv(cipherType, enc, iv)
       return void resolve(decipher.update(godWords, 'hex', 'utf8') + decipher.final('utf8'))
     } catch (error) {
-      console.error('\n\nYOU SHALL NOT PASS\n')
+      console.error(ERROR_CODE[3])
       return void reject(error)
     }
   })
@@ -74,13 +100,19 @@ function welcomeBack(godWords, enc, iv) {
 
 module.exports = {
   cipherType,
-  TARGET_FOLDER_PATH,
-  RESULT_FOLDER_PATH,
-  RESULT_GOD_WORDS_PATH,
-  BACK_JS_NAME,
-  BACK_JS_PATH,
-  BACK_JS_COPY_DIST_PATH,
+
+  RESULT_FOLDER_NAME,
+  TARGET_FOLDER_NAME,
+  GOD_WORDS_NAME,
+
   ERROR_CODE,
+
+  isPkg,
+  pathPrefix,
+  targetFolderPath,
+  resultGodWordsPath,
+  godWordsPath,
+  resultFilePath,
 
   ask,
 

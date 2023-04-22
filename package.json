@@ -4,7 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "encrypted": "node index.js",
+    "en": "node index.js",
+    "decrypted": "node back.js",
+    "de": "node back.js",
+    "build": "pkg index.js -t node18-macos-x64 -c package.json -o EncryptAny",
+    "build-back": "pkg back.js -t node18-macos-x64 -c package.json -o EncryptAnyBack"
   },
   "keywords": [],
   "author": "",
@@ -12,11 +17,19 @@
   "devDependencies": {
     "create-gitignore": "^0.1.0",
     "eslint": "^8.38.0",
+    "pkg": "^5.8.1",
     "prettier": "^2.8.7",
-    "uglify-js": "^3.17.4",
     "zip-local": "^0.3.5"
   },
   "dependencies": {
     "read": "^2.1.0"
+  },
+  "pkg": {
+    "scripts": [
+      "utils.js"
+    ],
+    "assets": [
+      "original-files"
+    ]
   }
 }
