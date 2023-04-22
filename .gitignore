@@ -1,7 +1,6 @@
-original-files
-!original-files/.git-keep
-EncryptAny # BinaryFile
-EncryptAnyBack # BinaryFile
+EncryptAny
+EncryptAnyBack
+
 god-words
 result.zip
 result
