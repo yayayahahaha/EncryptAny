@@ -29,7 +29,7 @@ pnpm install
 node index.js
 ```
 
-4. Your files will be encrypted into `encrypted-result` folder.
+4. Your files will be encrypted into a file named `god-words`.
 
 ### How to decrypt
 
@@ -42,7 +42,7 @@ pnpm install
 2. Run decrypt script and input the password you set before.
 
 ```bash
-node encrypted-result/back.js
+node back.js
 ```
 
 3. All your encrypted files will be regenerated into `encrypted-result/result` folder.
