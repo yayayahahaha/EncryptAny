@@ -16,8 +16,8 @@ function showEncryptSteps() {
   console.log()
 }
 
-async function start() {
-  showEncryptSteps()
+async function start(showHints = true) {
+  showHints && showEncryptSteps()
 
   if (!fs.existsSync(targetFolderPath()) || !fs.lstatSync(targetFolderPath()).isDirectory()) {
     console.error(ERROR_CODE.title)
@@ -25,15 +25,17 @@ async function start() {
     return void process.exit(1)
   }
 
-  const password = await ask('Your password: ')
+  const password = await ask('Your password: ').catch(() => null)
+  if (password == null) return void process.exit(0)
   console.log()
-  const passwordCheck = await ask('Again for confirm: ')
+  const passwordCheck = await ask('Again for confirm: ').catch(() => null)
+  if (passwordCheck == null) return void process.exit(0)
   console.log()
   console.log()
   if (password !== passwordCheck) {
     console.error(ERROR_CODE.title)
     console.error(ERROR_CODE[5])
-    return void process.exit(5)
+    return void start(false)
   }
 
   const zipMemory = zipper.sync.zip(targetFolderPath()).compress().memory().toString('hex')
