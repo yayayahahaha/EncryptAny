@@ -24,10 +24,12 @@ pnpm install
 ##### 3-1. Build a executable file `EncryptAny`
 
 ```bash
-pnpm build
+pnpm build-encrypt
 ```
 
 when the build process is done, double click on it to run the script.
+
+> You can build both `encrypt` and `decrypt` executable files once: `pnpm build`
 
 ##### 3-2. Run `NodeJs` script directly
 
@@ -56,10 +58,12 @@ pnpm install
 ##### 3-1. Build a executable file `EncryptAnyBack`
 
 ```bash
-pnpm build-back
+pnpm build-decrypt
 ```
 
 when the build process is done, double click on it to run the script.
+
+> You can build both `encrypt` and `decrypt` executable files once: `pnpm build`
 
 ##### 3-2. Run `NodeJs` script directly
 
