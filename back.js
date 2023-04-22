@@ -13,6 +13,7 @@ function showDecryptSteps() {
   console.log('Wait a minute, it dependents on the size of file')
   console.log('When it done, it will generate a folder named `result` and a zip file name `result.zip`')
   console.log('The original files will be in the `result` folder.')
+  console.log('=======================')
   console.log()
 }
 
@@ -44,6 +45,8 @@ async function start() {
 
   fs.mkdirSync(resultFilePath(), { recursive: true })
   zipper.sync.unzip(`${resultFilePath()}.zip`).save(resultFilePath())
+
+  console.log('Decrypt Success.')
 
   console.log('\n\nWelcome back.\n')
 }

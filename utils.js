@@ -13,6 +13,7 @@ const ERROR_CODE = {
   2: `god-words check failed! ${godWordsPath()} is not exist.\n`,
   3: '\n\nYOU SHALL NOT PASS\n',
   4: 'Encrypt failed\n',
+  5: 'Two passwords are not the same, please check again.\n',
 }
 
 function isPkg() {

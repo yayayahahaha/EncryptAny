@@ -12,6 +12,7 @@ function showEncryptSteps() {
   console.log('Wait a minute, it depends on the size of files.')
   console.log('When it done, it will generate a file named `god-words`')
   console.log('Keep it safe, and use `EncryptAnyBack` program to decrypt it back.')
+  console.log('=======================')
   console.log()
 }
 
@@ -25,6 +26,15 @@ async function start() {
   }
 
   const password = await ask('Your password: ')
+  console.log()
+  const passwordCheck = await ask('Again for confirm: ')
+  console.log()
+  console.log()
+  if (password !== passwordCheck) {
+    console.error(ERROR_CODE.title)
+    console.error(ERROR_CODE[5])
+    return void process.exit(5)
+  }
 
   const zipMemory = zipper.sync.zip(targetFolderPath()).compress().memory().toString('hex')
   const target = zipMemory
@@ -37,7 +47,8 @@ async function start() {
   const assets = `${basicEncKey}${basicIv}${godWords}`
   fs.writeFileSync(resultGodWordsPath(), assets, 'utf8')
 
-  console.log('\n\nOnly God knows.\n')
+  console.log('Encrypt Success.')
+  console.log('\n\nOnly God knows now.\n')
 }
 start()
 
