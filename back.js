@@ -33,10 +33,11 @@ async function start(showHints = true) {
   const godWords = neverKnow.slice(48)
 
   // Use password generate real enc and iv
-  const password = await ask('Password: ')
-  const { enc: backEnc, iv: backIv } = generateEncAndIv(password, { basicEncKey: assetsEnc, basicIv: assetsIv })
+  const password = await ask('Password: ').catch(() => null)
+  if (password == null) return void process.exit(0)
 
   // Falling
+  const { enc: backEnc, iv: backIv } = generateEncAndIv(password, { basicEncKey: assetsEnc, basicIv: assetsIv })
   const keepIt = await welcomeBack(godWords, backEnc, backIv).catch(() => null)
   if (keepIt == null) {
     return void start(false)
