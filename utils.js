@@ -8,8 +8,11 @@ const GOD_WORDS_NAME = 'god-words'
 const ZIP_NAME = 'result'
 
 const ERROR_CODE = {
-  1: `${targetFolderPath()} is not a folder.`,
-  2: `${godWordsPath()} is not exist.`,
+  title: `[ERROR]`,
+  1: `original-files check failed! ${targetFolderPath()} is not a folder.\n`,
+  2: `god-words check failed! ${godWordsPath()} is not exist.\n`,
+  3: '\n\nYOU SHALL NOT PASS\n',
+  4: 'Encrypt failed\n',
 }
 
 function isPkg() {
@@ -71,7 +74,8 @@ function becomeGod(target, enc, iv) {
       const cipher = crypto.createCipheriv(cipherType, enc, iv)
       return void resolve(cipher.update(target, 'utf8', 'hex') + cipher.final('hex'))
     } catch (error) {
-      console.error('Encrypt failed')
+      console.error(ERROR_CODE.title)
+      console.error(ERROR_CODE[4])
       return void reject(error)
     }
   })
@@ -87,7 +91,7 @@ function welcomeBack(godWords, enc, iv) {
       const decipher = crypto.createDecipheriv(cipherType, enc, iv)
       return void resolve(decipher.update(godWords, 'hex', 'utf8') + decipher.final('utf8'))
     } catch (error) {
-      console.error('\n\nYOU SHALL NOT PASS\n')
+      console.error(ERROR_CODE[3])
       return void reject(error)
     }
   })
