@@ -17,8 +17,8 @@ function showDecryptSteps() {
   console.log()
 }
 
-async function start() {
-  showDecryptSteps()
+async function start(showHints = true) {
+  showHints && showDecryptSteps()
 
   if (!fs.existsSync(godWordsPath())) {
     console.error(ERROR_CODE.title)
@@ -38,7 +38,9 @@ async function start() {
 
   // Falling
   const keepIt = await welcomeBack(godWords, backEnc, backIv).catch(() => null)
-  if (keepIt == null) return void process.exit(3)
+  if (keepIt == null) {
+    return void start(false)
+  }
 
   // Write them back, welcome back
   fs.writeFileSync(`${resultFilePath()}.zip`, keepIt, 'hex')

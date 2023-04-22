@@ -11,7 +11,7 @@ const ERROR_CODE = {
   title: `[ERROR]`,
   1: `original-files check failed! ${targetFolderPath()} is not a folder.\n`,
   2: `god-words check failed! ${godWordsPath()} is not exist.\n`,
-  3: '\n\nYOU SHALL NOT PASS\n',
+  3: '\n\nYOU SHALL NOT PASS\nPlease try again.\n',
   4: 'Encrypt failed\n',
   5: 'Two passwords are not the same, please check again.\n',
 }
