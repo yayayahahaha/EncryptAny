@@ -9,8 +9,11 @@
     "decrypted": "node back.js",
     "de": "node back.js",
     "build": "npm run build-encrypt && npm run build-decrypt",
+    "build-win": "npm run build-encrypt-win && npm run build-decrypt-win",
     "build-encrypt": "pkg index.js -t node18-macos-x64 -c package.json -o EncryptAny",
-    "build-decrypt": "pkg back.js -t node18-macos-x64 -c package.json -o EncryptAnyBack"
+    "build-decrypt": "pkg back.js -t node18-macos-x64 -c package.json -o EncryptAnyBack",
+    "build-encrypt-win": "pkg index.js -t node18-win-x64 -c package.json -o EncryptAny-win",
+    "build-decrypt-win": "pkg back.js -t node18-win-x64 -c package.json -o EncryptAnyBack-win"
   },
   "keywords": [],
   "author": "",
