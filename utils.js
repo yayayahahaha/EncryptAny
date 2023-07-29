@@ -1,5 +1,6 @@
 const crypto = require('crypto')
 const read = require('read')
+const path = require('path')
 
 const cipherType = 'aes-256-cbc'
 const TARGET_FOLDER_NAME = 'original-files'
@@ -16,27 +17,17 @@ const ERROR_CODE = {
   5: 'Two passwords are not the same, please check again.\n',
 }
 
-function isPkg() {
-  return /^\/snapshot\/[^/]+$/.test(__dirname)
-}
-function pathPrefix() {
-  if (isPkg()) {
-    return process.execPath.replace(/\/[^/]+$/, '')
-  } else {
-    return __dirname
-  }
-}
 function targetFolderPath() {
-  return `${pathPrefix()}/${TARGET_FOLDER_NAME}`
+  return path.resolve(TARGET_FOLDER_NAME)
 }
 function resultGodWordsPath() {
-  return `${pathPrefix()}/${GOD_WORDS_NAME}`
+  return path.resolve(GOD_WORDS_NAME)
 }
 function godWordsPath() {
-  return `${pathPrefix()}/${GOD_WORDS_NAME}`
+  return path.resolve(GOD_WORDS_NAME)
 }
 function resultFilePath() {
-  return `${pathPrefix()}/${ZIP_NAME}`
+  return path.resolve(ZIP_NAME)
 }
 
 /**
@@ -107,8 +98,6 @@ module.exports = {
 
   ERROR_CODE,
 
-  isPkg,
-  pathPrefix,
   targetFolderPath,
   resultGodWordsPath,
   godWordsPath,
